@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../data/repository/hotel_repository.dart';
+import '../data/repository/hotel_repo.dart';
 import '../models/hotel_model.dart';
 
 class HotelController extends GetxController {

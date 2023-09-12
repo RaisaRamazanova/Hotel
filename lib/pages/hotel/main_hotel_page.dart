@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hotel/pages/utils/colors.dart';
+import '../../utils/colors.dart';
 import 'hotel_page_body.dart';
 
 class HotelPage extends StatefulWidget {
@@ -15,9 +14,9 @@ class _HotelPageState extends State<HotelPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgColor,
-      body: Column(
+      body: const Column(
         children: [
-          const Expanded(child: SingleChildScrollView(
+          Expanded(child: SingleChildScrollView(
               child: HotelPageBody())
           ),
         ],

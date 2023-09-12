@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:hotel/controllers/reservation_controller.dart';
 import 'package:hotel/pages/hotel/main_hotel_page.dart';
-import 'package:hotel/pages/rotes/rotes_helper.dart';
+import 'package:hotel/rotes/rotes_helper.dart';
 import 'controllers/hotel_controller.dart';
+import 'controllers/hotel_room_controller.dart';
 import 'helper/dependencies.dart' as dep;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await dep.init();
 
   runApp(const MyApp());
@@ -22,6 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Get.find<HotelController>().getHotelData();
+    Get.find<HotelRoomController>().getHotelRoomData();
+    Get.find<ReservationController>().getReservationData();
     return ScreenUtilInit(
       child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
