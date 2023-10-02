@@ -1,8 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../../rotes/rotes_helper.dart';
 import '../../utils/colors.dart';
 
@@ -74,7 +72,7 @@ class OrderPage extends StatelessWidget {
                       )
                   ),
                   SizedBox(height: 32.h,),
-                  Text(
+                  const Text(
                       'Ваш заказ принят в работу',
                       style: TextStyle(
                           fontSize: 22,
@@ -109,7 +107,7 @@ class OrderPage extends StatelessWidget {
                 Container(height: 1.h, color: AppColors.grey.withOpacity(0.15),),
                 GestureDetector(
                   onTap: () {
-                    Get.toNamed(RouteHelper.getInitial());
+                    Navigator.of(context).popUntil(ModalRoute.withName(RouteHelper.getInitial()));
                   },
                   child: SizedBox(
                       width: double.maxFinite,

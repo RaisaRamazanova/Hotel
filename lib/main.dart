@@ -27,6 +27,10 @@ class MyApp extends StatelessWidget {
       child: GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Hotel',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            dividerColor: Colors.transparent,
+          ),
           home: const HotelPage(),
           initialRoute: RouteHelper.initial,
           getPages: RouteHelper.routes

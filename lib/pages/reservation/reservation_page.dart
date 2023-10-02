@@ -16,10 +16,8 @@ class ReservationPage extends StatefulWidget {
 class _ReservationPageState extends State<ReservationPage> {
   int _count = 1;
   Color containerColor = AppColors.grey;
-
-  final GlobalKey<CustomTextFieldState> _formKey1 = GlobalKey();
-  final GlobalKey<CustomTextFieldState> _formKey2 = GlobalKey();
   final List<String> _touristNumber = ['Первый', 'Второй', 'Третий', 'Четвертый', 'Пятый'];
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +26,13 @@ class _ReservationPageState extends State<ReservationPage> {
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
-        if (_formKey1.currentState!.isValid == 1 && _formKey2.currentState!.isValid == 1) {
-          setState(() {
-            containerColor = AppColors.blue;
-          });
-        }
-        else {
-          setState(() {
-            containerColor = AppColors.grey;
-          });
-        }
       },
       child: Scaffold(
         backgroundColor: AppColors.bgColor,
         body: GetBuilder<ReservationController>(builder:(data) {
           return data.reservationData != null
               ? Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       Container(height: 60.h, color: Colors.white,),
@@ -367,9 +356,9 @@ class _ReservationPageState extends State<ReservationPage> {
                                         style: TextStyle(fontFamily: 'SF-Pro-Display', fontSize: 22.sp, fontWeight: FontWeight.w500),
                                       ),
                                       SizedBox(height: 20.h),
-                                      CustomTextField(hintText: 'Номер телефона', type: TextViewType.phone, key: _formKey1),
+                                      CustomTextField(hintText: 'Номер телефона', type: TextViewType.phone),
                                       SizedBox(height: 8.h),
-                                      CustomTextField(hintText: 'Почта', type: TextViewType.email, key: _formKey2),
+                                      CustomTextField(hintText: 'Почта', type: TextViewType.email),
                                       SizedBox(height: 8.h),
                                       Text(
                                         'Эти данные никому не передаются. После оплаты мы вышли чек на указанный вами номер и почту',
@@ -526,22 +515,8 @@ class _ReservationPageState extends State<ReservationPage> {
                               Container(height: 1.h, color: AppColors.grey.withOpacity(0.15),),
                               GestureDetector(
                                 onTap: () {
-                                  if (_formKey1.currentState!.isValid == 1 && _formKey2.currentState!.isValid == 1) {
-                                    setState(() {
-                                      containerColor = AppColors.blue;
-                                    });
+                                  if (_formKey.currentState!.validate()) {
                                     Get.toNamed(RouteHelper.getOrder());
-                                  } else {
-                                    setState(() {
-                                      containerColor = AppColors.grey;
-                                    });
-                                    SnackBar(
-                                      content: const Text('Заполните все данные!'),
-                                      action: SnackBarAction(
-                                        label: 'Ok',
-                                        onPressed: () {},
-                                      ),
-                                    );
                                   }
                                 },
                                 child: Container(
@@ -551,7 +526,7 @@ class _ReservationPageState extends State<ReservationPage> {
                                       height: 48.h,
                                       margin: EdgeInsets.only(right: 16.w, left: 16.w, top: 12.h, bottom: 28.h),
                                       decoration: BoxDecoration(
-                                          color: containerColor,
+                                          color:  containerColor,
                                           borderRadius: BorderRadius.all(Radius.circular(15.r))
                                       ),
                                       child: Center(
@@ -568,6 +543,27 @@ class _ReservationPageState extends State<ReservationPage> {
                       ),
                     ],
                   ),
+                  onChanged: () {
+                    Future.delayed(const Duration(microseconds: 100), () {
+                      if (_formKey.currentState!.validate()) {
+                        setState(() {
+                          containerColor = AppColors.blue;
+                        });
+                      } else {
+                        setState(() {
+                          containerColor = AppColors.grey;
+                        });
+                        SnackBar(
+                          content: const Text('Заполните все данные!'),
+                          action: SnackBarAction(
+                            label: 'Ok',
+                            onPressed: () {},
+                          ),
+                        );
+                      }
+                    });
+
+                  },
                 )
               : Container(
                   padding: EdgeInsets.only(top: 40.h),
@@ -592,6 +588,7 @@ class _ReservationPageState extends State<ReservationPage> {
               )
           ),
           child: ExpansionTile(
+    //        maintainState: true,
             title: Text(
               title,
               style: const TextStyle(
